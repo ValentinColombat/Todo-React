@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import  TodoItem from "./TodoItem";
 
 type Priority = "Urgente" | "Moyenne" | "Basse"
 
@@ -47,6 +48,16 @@ function App() {
     filteredTodos = todos.filter((todo) => todo.priority === filter)
    }
 
+   const urgentCount = todos.filter((t) => t.priority === "Urgente").length
+   const mediumCount = todos.filter((t) => t.priority === "Moyenne").length
+   const lowCount = todos.filter((t) => t.priority === "Basse").length
+   const totalCount = todos.length
+
+   function deleteTodo(id: number){
+    const newTodos = todos.filter((todo) => todo.id !== id)
+    setTodos(newTodos)
+   }
+
   return (
     <div className ="flex justify-center">
       <div className ="w-2/3 flex flex-col gap-4 my-15 bg-base-300 p-5 rounded 2xl">
@@ -71,22 +82,51 @@ function App() {
             Ajouter
           </button>
         </div>
+  
         <div className ="space-y-2 flex-1 h-fit">
           <div className="flex flex-wrap gap-4">
             <button 
             className ={`btn btn-soft ${filter === "Tous" ? "btn-primary" : ""}`}
             onClick={() => setFilter("Tous")}
             >
-              Tous
+              Tous({totalCount})
+            </button>
+             <button 
+            className ={`btn btn-soft ${filter === "Urgente" ? "btn-primary" : ""}`}
+            onClick={() => setFilter("Urgente")}
+            >
+              Urgent({urgentCount})
+            </button>
+             <button 
+            className ={`btn btn-soft ${filter === "Moyenne" ? "btn-primary" : ""}`}
+            onClick={() => setFilter("Moyenne")}
+            >
+              Moyenne({mediumCount})
+            </button>
+             <button 
+            className ={`btn btn-soft ${filter === "Basse" ? "btn-primary" : ""}`}
+            onClick={() => setFilter("Basse")}
+            >
+              Basse({lowCount})
             </button>
           </div>
-          {filteredTodos.length > 0 ? 
-        (<div> test </div>) : 
-        (<div>test2</div>)
-        }
+          
+          {filteredTodos.length > 0 ? (
+            <ul className="divide-y divide-primary/20">
+            {filteredTodos.map((todo) => (
+                <TodoItem
+                key={todo.id}
+                todo={todo}
+                onDelete={()=> deleteTodo(todo.id)} />
+            ))}
+          </ul>
+        ) : (
+          <div>test2</div>
+          )}
         </div> 
       </div>
     </div>
   )
-} 
+}
+
 export default App
