@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import  TodoItem from "./TodoItem";
+import { Construction } from "lucide-react";
 
 type Priority = "Urgente" | "Moyenne" | "Basse"
 
@@ -51,11 +52,34 @@ function App() {
    const urgentCount = todos.filter((t) => t.priority === "Urgente").length
    const mediumCount = todos.filter((t) => t.priority === "Moyenne").length
    const lowCount = todos.filter((t) => t.priority === "Basse").length
-   const totalCount = todos.length
+   const totalCount = todos.length 
 
    function deleteTodo(id: number){
     const newTodos = todos.filter((todo) => todo.id !== id)
     setTodos(newTodos)
+   }
+
+   const [selectedTodos, setSelectedTodos ] = useState<Set<number>>(new Set())
+
+   function toggleSelectTodo(id: number){
+    const newSelected = new Set(selectedTodos)
+    if(newSelected.has(id)){
+      newSelected.delete(id)
+    } else {
+      newSelected.add(id)
+    }
+    setSelectedTodos(newSelected)
+   }
+
+   function finishSelected () {
+    const newTodos = todos.filter((todo) => {
+      if ( selectedTodos.has(todo.id)) {
+      return false
+      }
+      return true
+    })
+    setTodos(newTodos)
+    setSelectedTodos(new Set())
    }
 
   return (
@@ -82,9 +106,10 @@ function App() {
             Ajouter
           </button>
         </div>
-  
+   
         <div className ="space-y-2 flex-1 h-fit">
-          <div className="flex flex-wrap gap-4">
+          <div className ="flex items-center justify-center">
+            <div className="flex flex-wrap gap-4">
             <button 
             className ={`btn btn-soft ${filter === "Tous" ? "btn-primary" : ""}`}
             onClick={() => setFilter("Tous")}
@@ -110,20 +135,37 @@ function App() {
               Basse({lowCount})
             </button>
           </div>
+          <button 
+            onClick ={finishSelected}
+            className="btn btn-primary ml-4"
+            disabled={selectedTodos.size === 0}>
+              Supprimer la sélection({selectedTodos.size})
+            </button>
+          </div>
+
           
           {filteredTodos.length > 0 ? (
             <ul className="divide-y divide-primary/20">
             {filteredTodos.map((todo) => (
+                <li key={todo.id}>
                 <TodoItem
-                key={todo.id}
                 todo={todo}
-                onDelete={()=> deleteTodo(todo.id)} />
+                isSelected={selectedTodos.has(todo.id)}
+                onDelete={()=> deleteTodo(todo.id)}
+                onToggleSelect={toggleSelectTodo}
+                 />
+                 </li>
             ))}
           </ul>
         ) : (
-          <div>test2</div>
+          <div className="flex justify-center items-center flex-col p-5">
+            <div>
+              <Construction strokeWidth={1} className="w-40 h-40 text-primary"/>
+            </div>
+            <p className="text-sm"> Aucunes tâches pour ce filtre</p>
+          </div>
           )}
-        </div> 
+        </div>
       </div>
     </div>
   )
