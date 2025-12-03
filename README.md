@@ -413,62 +413,6 @@ CMD ["npm", "run", "preview"]
 
 ---
 
-## Contributing
-
-We welcome contributions! Here's how you can help:
-
-### Reporting Bugs
-- Open an issue describing the bug
-- Include steps to reproduce
-- Mention your browser and OS
-
-### Suggesting Features
-- Open an issue with your feature request
-- Explain the use case and benefits
-- Discuss implementation ideas
-
-### Pull Requests
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes
-4. Run tests and linting: `npm run lint`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
-
-### Code Style
-- Follow the existing code style
-- Use TypeScript with proper typing
-- Add comments for complex logic
-- Keep functions small and focused
-- Use meaningful variable names
-
----
-
-## Architecture Highlights
-
-### Component Architecture
-- **Smart/Dumb Components**: App.tsx is the smart component, TodoItem.tsx is presentational
-- **Props Down, Events Up**: TodoItem receives props and emits events via callbacks
-- **Single Responsibility**: Each component has a clear, focused purpose
-
-### State Management Philosophy
-- **Minimal State**: Only essential state is tracked
-- **Derived Values**: Counters and filtered lists are computed, not stored
-- **Immutable Updates**: Always create new arrays/objects instead of mutating
-
-### Performance Considerations
-- **Set for Selection**: Using JavaScript Set for O(1) lookup of selected todos
-- **Key Props**: Proper keys on list items for efficient React reconciliation
-- **No Unnecessary Re-renders**: Components only re-render when their props/state change
-
-### Type Safety
-- **Strict TypeScript**: Full type coverage with strict mode enabled
-- **Type Definitions**: Clear interfaces for all data structures
-- **Type Guards**: Runtime validation where needed (e.g., priority casting)
-
----
-
 ## Future Enhancements
 
 Some ideas for future development:
@@ -485,18 +429,6 @@ Some ideas for future development:
 - [ ] **Animations**: Smooth transitions for add/delete operations
 - [ ] **Cloud Sync**: Optional backend for cross-device sync
 - [ ] **Keyboard Shortcuts**: Power user features
-
----
-
-## Author
-
-**Valentin Colombat**
-
----
-
-## License
-
-This project is private and not currently licensed for public use.
 
 ---
 
